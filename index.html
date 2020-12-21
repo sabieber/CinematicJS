@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" type="text/css" href="video-player.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+</head>
+
+<body>
+    <div id="videoContainer" class="video-container">
+        <video id="video" preload="metadata" poster="video/poster.jpg">
+            <source src="video/720.mp4" type="video/mp4">
+            <source src="video/720.webm" type="video/webm">
+        </video>
+        <div id="video-controls" class="controls">
+            <i id="playpause" class="video-control-button material-icons">play_arrow</i>
+            <i id="stop" class="video-control-button material-icons">stop</i>
+            <div class="progress-wrapper">
+                <progress id="progress" class="progress-bar" value="0" min="0"></progress>
+            </div>
+            <i id="mute" class="video-control-button material-icons">volume_mute</i>
+            <i id="voldec" class="video-control-button material-icons">volume_down</i>
+            <i id="volinc" class="video-control-button material-icons">volume_up</i>
+            <select id="quality" class="video-control-dropdown">
+                <option value="1080">1080p</option>
+                <option value="720" selected>720p</option>
+                <option value="360">360p</option>
+            </select>
+            <i id="fs" class="video-control-button material-icons">fullscreen</i>
+        </div>
+
+    <script src="video-player.js"></script>
+</body>
+
+</html>
