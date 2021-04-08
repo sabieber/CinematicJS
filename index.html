@@ -11,7 +11,11 @@
         <video id="video" preload="metadata" poster="video/poster.jpg">
             <source src="video/720.mp4" type="video/mp4">
             <source src="video/720.webm" type="video/webm">
+            <track label="subtitles" kind="subtitles" srclang="en" src="video/captions.vtt" default>
         </video>
+        <div class="cues-container">
+            <div id="video-cues" class="hidden"></div>
+        </div>
         <div id="video-controls" class="controls">
             <i id="playpause" class="video-control-button material-icons">play_arrow</i>
             <i id="stop" class="video-control-button material-icons">stop</i>
@@ -26,6 +30,7 @@
                 <option value="720" selected>720p</option>
                 <option value="360">360p</option>
             </select>
+            <i id="captions" class="video-control-button material-icons">closed_captions</i>
             <i id="fs" class="video-control-button material-icons">fullscreen</i>
         </div>
 

@@ -1,6 +1,11 @@
 const _container = document.querySelector('#videoContainer');
 const _video = _container.querySelector('#video');
+const _cuesContainer = _container.querySelector('.cues-container');
+const _cues = _container.querySelector('#video-cues');
 const _controls = _container.querySelector('#video-controls');
+const tracks = video.textTracks[0];
+tracks.mode = 'hidden';
+const cues = tracks.cues;
 
 const _playpause = _controls.querySelector('#playpause');
 const _stop = _controls.querySelector('#stop');
@@ -8,9 +13,9 @@ const _mute = _controls.querySelector('#mute');
 const _volinc = _controls.querySelector('#volinc');
 const _voldec = _controls.querySelector('#voldec');
 const _progress = _controls.querySelector('#progress');
-const _progressBar = _controls.querySelector('#progress-bar');
 const _fullscreen = _controls.querySelector('#fs');
 const _quality = _controls.querySelector('#quality');
+const _captions = _controls.querySelector('#captions');
 
 _playpause.addEventListener('click', function(e) {
     if (_video.paused || _video.ended) {
@@ -49,8 +54,23 @@ _volinc.addEventListener('click', function(e) {
     }
  }
 
+ var onCueEnter = function() {
+    _cues.textContent = this.text;
+    _cues.classList.remove('hidden');
+ }
+
+ var onCueExit = function() {
+   _cues.textContent = '';
+   _cues.classList.add('hidden');
+}
+
  _video.addEventListener('loadedmetadata', function() {
     _progress.setAttribute('max', _video.duration);
+    for (let i in cues) {
+      let cue = cues[i];
+      cue.onenter = onCueEnter;
+      cue.onexit = onCueExit;
+    }
  });
 
  _video.addEventListener('timeupdate', function() {
@@ -58,7 +78,6 @@ _volinc.addEventListener('click', function(e) {
         _progress.setAttribute('max', _video.duration);
     }
     _progress.value = _video.currentTime;
-    _progressBar.style.width = Math.floor((_video.currentTime / _video.duration) * 100) + '%';
  });
 
  _progress.addEventListener('click', function(e) {
@@ -123,3 +142,10 @@ _quality.addEventListener('change', function (e) {
     _video.currentTime = currentTime;
     _video.play();
 }); 
+
+
+ _captions.addEventListener('click', function (e) {
+   _cuesContainer.classList.toggle('hidden');
+ });
+
+ _video.load();
