@@ -80,6 +80,13 @@ video {
     appearance: none;
 }
 
+.controls .video-control-timer {
+    flex-shrink: 0;
+    align-self: center;
+    padding-left: 8px;
+    color: #ffffff;
+}
+
 .controls * {
     margin: 4px;
 }
