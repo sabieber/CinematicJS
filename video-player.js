@@ -2,6 +2,7 @@ const _container = document.querySelector('#videoContainer');
 const _video = _container.querySelector('#video');
 const _cuesContainer = _container.querySelector('.cues-container');
 const _cues = _container.querySelector('#video-cues');
+const _endcard = _container.querySelector('#video-endcard');
 const _controls = _container.querySelector('#video-controls');
 
 const _playpause = _controls.querySelector('#playpause');
@@ -27,10 +28,8 @@ const video = {
 _playpause.addEventListener('click', function(e) {
     if (_video.paused || _video.ended) {
         _video.play();
-        _playpause.textContent = 'pause';
     } else {
         _video.pause();
-        _playpause.textContent = 'play_arrow';
     }
  });
 
@@ -96,6 +95,21 @@ var updateTimer = function() {
     _progress.value = video.playedSeconds;
 
     updateTimer();
+ });
+
+ _video.addEventListener('play', function () {
+   _endcard.classList.add('hidden');
+   _playpause.textContent = 'pause';
+ });
+
+ _video.addEventListener('pause', function () {
+   _endcard.classList.remove('hidden');
+   _playpause.textContent = 'play_arrow';
+ });
+
+ _video.addEventListener('ended', function () {
+   _endcard.classList.remove('hidden');
+   _playpause.textContent = 'restart_alt';
  });
 
  _progress.addEventListener('click', function(e) {

@@ -122,5 +122,5 @@ html:-ms-fullscreen {
 }
 
 .hidden {
-    display: none;
+    display: none !important;
 }
