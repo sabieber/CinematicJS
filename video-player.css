@@ -24,8 +24,8 @@ video {
     justify-content: center;
 }
 
-.cues-container > div {
-    color:white;
+.cues-container>div {
+    color: white;
     background-color: #00000094;
     padding: 4px 8px;
     border-radius: 4px;
@@ -136,4 +136,55 @@ html:-ms-fullscreen {
 
 .volume-wrapper:hover .volume-slider {
     display: initial;
+}
+
+.volume-wrapper input[type=range] {
+    width: 100%;
+    background-color: transparent;
+    -webkit-appearance: none;
+}
+
+.volume-wrapper input[type=range]:focus {
+    outline: none;
+}
+
+.volume-wrapper input[type=range]::-webkit-slider-runnable-track {
+    background: #ffffff20;
+    border: 1.6px solid #ffffff;
+    border-radius: 4px;
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+}
+
+.volume-wrapper input[type=range]::-webkit-slider-thumb {
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border: 1.8px solid #ececec;
+    border-radius: 50px;
+    cursor: pointer;
+    -webkit-appearance: none;
+}
+
+.volume-wrapper input[type=range]:focus::-webkit-slider-runnable-track {
+    background: #ffffff;
+}
+
+.volume-wrapper input[type=range]::-moz-range-track {
+    background: #ffffff98;
+    border: 1.6px solid #ffffff20;
+    border-radius: 4px;
+    width: 100%;
+    height: 2px;
+    cursor: pointer;
+}
+
+.volume-wrapper input[type=range]::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    background: #ffffff;
+    border: 1.8px solid #ececec;
+    border-radius: 50px;
+    cursor: pointer;
 }
