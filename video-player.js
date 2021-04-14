@@ -204,7 +204,9 @@ _qualityOptions.forEach(function (_qualityOption) {
 
 
  _captions.addEventListener('click', function (e) {
-   _cuesContainer.classList.toggle('hidden');
+    _captions.classList.toggle('material-icons');
+    _captions.classList.toggle('material-icons-outlined');
+    _cuesContainer.classList.toggle('hidden');
  });
 
  _video.load();

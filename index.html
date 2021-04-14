@@ -3,7 +3,7 @@
 
 <head>
     <link rel="stylesheet" type="text/css" href="video-player.css">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <style>
         .endcard {
             display: grid;
@@ -49,7 +49,7 @@
             <source src="video/720.webm" type="video/webm">
             <track label="subtitles" kind="subtitles" srclang="en" src="video/captions.vtt" default>
         </video>
-        <div class="cues-container">
+        <div class="cues-container hidden">
             <div id="video-cues" class="hidden"></div>
         </div>
         <div id="video-endcard" class="endcard hidden">
@@ -89,7 +89,7 @@
                     <div class="video-quality-option" data-quality="360">360p</div>
                 </div>
             </div>
-            <i id="captions" class="video-control-button material-icons">subtitles</i>
+            <i id="captions" class="video-control-button material-icons-outlined">subtitles</i>
             <i id="fs" class="video-control-button material-icons">fullscreen</i>
         </div>
 
