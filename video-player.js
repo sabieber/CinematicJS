@@ -7,11 +7,10 @@ const _controls = _container.querySelector('#video-controls');
 
 const _playpause = _controls.querySelector('#playpause');
 const _stop = _controls.querySelector('#stop');
-const _mute = _controls.querySelector('#mute');
-const _volinc = _controls.querySelector('#volinc');
-const _voldec = _controls.querySelector('#voldec');
 const _progress = _controls.querySelector('#progress');
 const _timer = _controls.querySelector('#timer');
+const _volumeButton = _controls.querySelector('#volume-button');
+const _volumeSlider = _controls.querySelector('#volume-slider');
 const _fullscreen = _controls.querySelector('#fs');
 const _quality = _controls.querySelector('#quality');
 const _captions = _controls.querySelector('#captions');
@@ -22,7 +21,8 @@ tracks.mode = 'hidden';
 const video = {
    cues: tracks.cues,
    totalSeconds: 0,
-   playedSeconds: 0
+   playedSeconds: 0,
+   volume: 0
 }
 
 _playpause.addEventListener('click', function(e) {
@@ -39,16 +39,29 @@ _playpause.addEventListener('click', function(e) {
     _progress.value = 0;
  });
 
-_mute.addEventListener('click', function(e) {
-    _video.muted = !_video.muted;
+_volumeButton.addEventListener('click', function(e) {
+   _video.muted = !_video.muted;
+   _volumeSlider.value = _video.muted ? 0 : video.volume;
+   if (_video.muted) {
+      _volumeButton.textContent = 'volume_off';
+   } else {
+      if (video.volume > 50) {
+         _volumeButton.textContent = 'volume_up';
+      } else {
+         _volumeButton.textContent = 'volume_down';
+      }
+   }
 });
 
-_volinc.addEventListener('click', function(e) {
-    alterVolume('+');
- });
- _voldec.addEventListener('click', function(e) {
-    alterVolume('-');
- });
+_volumeSlider.addEventListener('change', function (e) {
+   video.volume = this.value;
+   _video.volume = video.volume / 100;
+   if (video.volume > 50) {
+      _volumeButton.textContent = 'volume_up';
+   } else {
+      _volumeButton.textContent = 'volume_down';
+   }
+})
 
  var alterVolume = function(dir) {
     var currentVolume = Math.floor(_video.volume * 10) / 10;

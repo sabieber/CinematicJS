@@ -77,9 +77,10 @@
                 <progress id="progress" class="progress-bar" value="0" min="0"></progress>
             </div>
             <span id="timer" class="video-control-timer">00:00:00 / 00:00:00</span>
-            <i id="mute" class="video-control-button material-icons">volume_mute</i>
-            <i id="voldec" class="video-control-button material-icons">volume_down</i>
-            <i id="volinc" class="video-control-button material-icons">volume_up</i>
+            <div class="volume-wrapper">
+                <input id="volume-slider" type="range" min="1" max="100" value="50" class="volume-slider">
+                <i id="volume-button" class="video-control-button material-icons">volume_up</i>
+            </div>
             <select id="quality" class="video-control-dropdown">
                 <option value="1080">1080p</option>
                 <option value="720" selected>720p</option>

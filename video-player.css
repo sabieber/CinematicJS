@@ -124,3 +124,16 @@ html:-ms-fullscreen {
 .hidden {
     display: none !important;
 }
+
+.volume-wrapper {
+    display: flex
+}
+
+.volume-wrapper .volume-slider {
+    display: none;
+    width: 56px;
+}
+
+.volume-wrapper:hover .volume-slider {
+    display: initial;
+}
