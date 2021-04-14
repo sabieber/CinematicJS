@@ -12,7 +12,7 @@ const _timer = _controls.querySelector('#timer');
 const _volumeButton = _controls.querySelector('#volume-button');
 const _volumeSlider = _controls.querySelector('#volume-slider');
 const _fullscreen = _controls.querySelector('#fs');
-const _quality = _controls.querySelector('#quality');
+const _qualityOptions = _controls.querySelectorAll('.video-quality-option');
 const _captions = _controls.querySelector('#captions');
 
 const tracks = _video.textTracks[0];
@@ -22,7 +22,8 @@ const video = {
    cues: tracks.cues,
    totalSeconds: 0,
    playedSeconds: 0,
-   volume: 0
+   volume: 0,
+   quality: 720
 }
 
 _playpause.addEventListener('click', function(e) {
@@ -178,15 +179,28 @@ var updateTimer = function() {
  });
 
 
-_quality.addEventListener('change', function (e) {
-    const currentTime = _video.currentTime;
+_qualityOptions.forEach(function (_qualityOption) {
+   _qualityOption.addEventListener('click', function (e) {
+      const newQuality = _qualityOption.dataset.quality;
+      const currentQuality = video.quality;
 
-    _video.querySelector('source[type="video/mp4"]').src = 'video/' + _quality.value + '.mp4';
-    _video.querySelector('source[type="video/webm"]').src = 'video/' + _quality.value + '.webm';
-    _video.load();
-    _video.currentTime = currentTime;
-    _video.play();
-}); 
+      _qualityOptions.forEach(function (_qualityOption) {
+         _qualityOption.classList.remove('active');
+      });
+      _qualityOption.classList.add('active');
+
+      if (newQuality != currentQuality) {
+         const currentTime = _video.currentTime;
+
+         _video.querySelector('source[type="video/mp4"]').src = 'video/' + newQuality + '.mp4';
+         _video.querySelector('source[type="video/webm"]').src = 'video/' + newQuality + '.webm';
+         _video.load();
+         _video.currentTime = currentTime;
+         _video.play();
+         video.quality = newQuality;
+      }
+   });
+})
 
 
  _captions.addEventListener('click', function (e) {

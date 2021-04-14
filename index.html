@@ -81,11 +81,14 @@
                 <input id="volume-slider" type="range" min="1" max="100" value="50" class="volume-slider">
                 <i id="volume-button" class="video-control-button material-icons">volume_up</i>
             </div>
-            <select id="quality" class="video-control-dropdown">
-                <option value="1080">1080p</option>
-                <option value="720" selected>720p</option>
-                <option value="360">360p</option>
-            </select>
+            <div id="quality" class="video-control-dropdown">
+                <i class="dropdown-button material-icons video-control-button">settings</i>
+                <div class="dropdown-content">
+                    <div class="video-quality-option" data-quality="1080">1080p</div>
+                    <div class="video-quality-option active" data-quality="720">720p</div>
+                    <div class="video-quality-option" data-quality="360">360p</div>
+                </div>
+            </div>
             <i id="captions" class="video-control-button material-icons">closed_captions</i>
             <i id="fs" class="video-control-button material-icons">fullscreen</i>
         </div>

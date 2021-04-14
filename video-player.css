@@ -6,6 +6,7 @@
     height: auto;
     margin: 20px 0 0;
     margin: 1.25rem 0 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
 video {
@@ -34,7 +35,6 @@ video {
 .controls {
     display: flex;
     list-style-type: none;
-    overflow: hidden;
     background: transparent;
     position: absolute;
     bottom: 0;
@@ -187,4 +187,39 @@ html:-ms-fullscreen {
     border: 1.8px solid #ececec;
     border-radius: 50px;
     cursor: pointer;
+}
+
+.video-control-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.video-control-dropdown .dropdown-content {
+    display: none;
+    position: absolute;
+    bottom: 28px;
+    background-color: #ffffff;
+    min-width: 80px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.video-control-dropdown:hover .dropdown-content {
+    display: block;
+}
+
+.video-control-dropdown .dropdown-content div {
+    color: black;
+    padding: 8px;
+    text-decoration: none;
+    display: block;
+    cursor: pointer;
+}
+
+.video-control-dropdown .dropdown-content div:hover {
+    background-color: #ddd;
+}
+
+.video-control-dropdown .dropdown-content div.active {
+    font-weight: 600;
 }
