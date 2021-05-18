@@ -14,7 +14,7 @@ video {
     height: auto;
 }
 
-.cues-container {
+.video-cues-container {
     display: flex;
     position: absolute;
     top: 48px;
@@ -25,14 +25,14 @@ video {
     justify-content: center;
 }
 
-.cues-container>div {
+.video-cues-container>div {
     color: white;
     background-color: #00000094;
     padding: 4px 8px;
     border-radius: 4px;
 }
 
-.controls {
+.video-controls {
     display: flex;
     list-style-type: none;
     background: transparent;
@@ -44,30 +44,30 @@ video {
     align-items: center;
 }
 
-.controls .progress-wrapper {
+.video-controls .video-progress-wrapper {
     width: 100%;
     flex-grow: 1;
 }
 
-.controls .progress-bar {
+.video-controls .video-progress-bar {
     cursor: pointer;
 }
 
-.controls .progress-bar::-webkit-progress-bar {
+.video-controls .video-progress-bar::-webkit-progress-bar {
     background: #ffffff20;
 }
 
-.controls .progress-bar::-webkit-progress-value {
+.video-controls .video-progress-bar::-webkit-progress-value {
     background: #ffffff;
 }
 
-.controls .video-control-button {
+.video-controls .video-control-button {
     color: #ffffff;
     cursor: pointer;
     flex-grow: 0;
 }
 
-.controls progress {
+.video-controls .video-progress-bar {
     display: block;
     width: 100%;
     height: 6px;
@@ -80,13 +80,13 @@ video {
     appearance: none;
 }
 
-.controls .video-control-timer {
+.video-controls .video-control-timer {
     flex-shrink: 0;
     padding-left: 8px;
     color: #ffffff;
 }
 
-.controls > * {
+.video-controls > * {
     margin: 4px;
 }
 
@@ -114,7 +114,7 @@ html:-ms-fullscreen {
     height: auto;
 }
 
-.video-container[data-fullscreen=true] .controls {
+.video-container[data-fullscreen=true] .video-controls {
     position: absolute;
     width: 100%;
     z-index: 2147483647;
@@ -124,30 +124,30 @@ html:-ms-fullscreen {
     display: none !important;
 }
 
-.volume-wrapper {
+.video-volume-wrapper {
     display: flex
 }
 
-.volume-wrapper .volume-slider {
+.video-volume-wrapper .video-volume-slider {
     display: none;
     width: 56px;
 }
 
-.volume-wrapper:hover .volume-slider {
+.video-volume-wrapper:hover .video-volume-slider {
     display: initial;
 }
 
-.volume-wrapper input[type=range] {
+.video-volume-wrapper input[type=range] {
     width: 100%;
     background-color: transparent;
     -webkit-appearance: none;
 }
 
-.volume-wrapper input[type=range]:focus {
+.video-volume-wrapper input[type=range]:focus {
     outline: none;
 }
 
-.volume-wrapper input[type=range]::-webkit-slider-runnable-track {
+.video-volume-wrapper input[type=range]::-webkit-slider-runnable-track {
     background: #ffffff20;
     border: 1.6px solid #ffffff;
     border-radius: 4px;
@@ -156,7 +156,7 @@ html:-ms-fullscreen {
     cursor: pointer;
 }
 
-.volume-wrapper input[type=range]::-webkit-slider-thumb {
+.video-volume-wrapper input[type=range]::-webkit-slider-thumb {
     width: 12px;
     height: 12px;
     background: #ffffff;
@@ -166,11 +166,11 @@ html:-ms-fullscreen {
     -webkit-appearance: none;
 }
 
-.volume-wrapper input[type=range]:focus::-webkit-slider-runnable-track {
+.video-volume-wrapper input[type=range]:focus::-webkit-slider-runnable-track {
     background: #ffffff;
 }
 
-.volume-wrapper input[type=range]::-moz-range-track {
+.video-volume-wrapper input[type=range]::-moz-range-track {
     background: #ffffff98;
     border: 1.6px solid #ffffff20;
     border-radius: 4px;
@@ -179,7 +179,7 @@ html:-ms-fullscreen {
     cursor: pointer;
 }
 
-.volume-wrapper input[type=range]::-moz-range-thumb {
+.video-volume-wrapper input[type=range]::-moz-range-thumb {
     width: 12px;
     height: 12px;
     background: #ffffff;
@@ -192,7 +192,7 @@ html:-ms-fullscreen {
     height: 24px;
 }
 
-.video-control-dropdown .dropdown-content {
+.video-control-dropdown .video-dropdown-content {
     display: none;
     position: absolute;
     bottom: 32px;
@@ -202,11 +202,11 @@ html:-ms-fullscreen {
     z-index: 1;
 }
 
-.video-control-dropdown:hover .dropdown-content {
+.video-control-dropdown:hover .video-dropdown-content {
     display: block;
 }
 
-.video-control-dropdown .dropdown-content div {
+.video-control-dropdown .video-dropdown-content div {
     color: black;
     padding: 8px;
     text-decoration: none;
@@ -214,10 +214,10 @@ html:-ms-fullscreen {
     cursor: pointer;
 }
 
-.video-control-dropdown .dropdown-content div:hover {
+.video-control-dropdown .video-dropdown-content div:hover {
     background-color: #ddd;
 }
 
-.video-control-dropdown .dropdown-content div.active {
+.video-control-dropdown .video-dropdown-content div.active {
     font-weight: 600;
 }

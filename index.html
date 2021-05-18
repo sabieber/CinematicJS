@@ -43,57 +43,17 @@
 </head>
 
 <body>
-    <div id="videoContainer" class="video-container">
-        <video id="video" preload="metadata" poster="video/poster.jpg">
-            <source src="video/720.mp4" type="video/mp4">
-            <source src="video/720.webm" type="video/webm">
-            <track label="subtitles" kind="subtitles" srclang="en" src="video/captions.vtt" default>
-        </video>
-        <div class="cues-container hidden">
-            <div id="video-cues" class="hidden"></div>
-        </div>
-        <div id="video-endcard" class="endcard hidden">
-            <div class="thumbnail">
-                <img src="video/poster.jpg">
-                <div class="title">Video 1</div>
-            </div>
-            <div class="thumbnail">
-                <img src="video/poster.jpg">
-                <div class="title">Video 2</div>
-            </div>
-            <div class="thumbnail">
-                <img src="video/poster.jpg">
-                <div class="title">Video 3</div>
-            </div>
-            <div class="thumbnail">
-                <img src="video/poster.jpg">
-                <div class="title">Video 4</div>
-            </div>
-        </div>
-        <div id="video-controls" class="controls">
-            <i id="playpause" class="video-control-button material-icons">play_arrow</i>
-            <i id="stop" class="video-control-button material-icons">stop</i>
-            <div class="progress-wrapper">
-                <progress id="progress" class="progress-bar" value="0" min="0"></progress>
-            </div>
-            <span id="timer" class="video-control-timer">00:00:00 / 00:00:00</span>
-            <div class="volume-wrapper">
-                <input id="volume-slider" type="range" min="1" max="100" value="50" class="volume-slider">
-                <i id="volume-button" class="video-control-button material-icons">volume_up</i>
-            </div>
-            <div id="quality" class="video-control-dropdown">
-                <i class="dropdown-button material-icons video-control-button">settings</i>
-                <div class="dropdown-content">
-                    <div class="video-quality-option" data-quality="1080">1080p</div>
-                    <div class="video-quality-option active" data-quality="720">720p</div>
-                    <div class="video-quality-option" data-quality="360">360p</div>
-                </div>
-            </div>
-            <i id="captions" class="video-control-button material-icons-outlined">subtitles</i>
-            <i id="fs" class="video-control-button material-icons">fullscreen</i>
-        </div>
+    <div id="video1"></div>
 
     <script src="video-player.js"></script>
+
+    <script>
+        new VideoPlayer({
+            selector: '#video1',
+            poster: 'video/poster.jpg',
+            subtitles: 'video/captions.vtt',
+        });
+    </script>
 </body>
 
 </html>
