@@ -85,6 +85,14 @@ const VideoPlayer = (function () {
       _progressWrapper.classList.add('video-progress-wrapper');
       _controls.appendChild(_progressWrapper);
 
+      const _bufferBar = document.createElement('progress');
+      _bufferBar.classList.add('video-buffer-bar');
+      _bufferBar.value = 0;
+      _bufferBar.min = 0;
+      _progressWrapper.appendChild(_bufferBar);
+
+      this._bufferBar = _bufferBar;
+
       const _progressBar = document.createElement('progress');
       _progressBar.classList.add('video-progress-bar');
       _progressBar.value = 0;
@@ -223,6 +231,7 @@ const VideoPlayer = (function () {
       this._video.addEventListener('loadedmetadata', function () {
          me.totalSeconds = this.duration;
          me._progressBar.setAttribute('max', me.totalSeconds);
+         me._bufferBar.setAttribute('max', me.totalSeconds);
          me.updateTimer();
       
          for (let i in me.cues) {
@@ -252,6 +261,22 @@ const VideoPlayer = (function () {
       this._video.addEventListener('ended', function () {
          //me._endcard.classList.remove('hidden');
          me._playButton.textContent = 'restart_alt';
+      });
+
+      this._video.addEventListener('progress', function () {
+         if (this.duration > 0) {
+            for (var i = 0; i < this.buffered.length; i++) {
+               const bufferRangeIndex = this.buffered.length - 1 - i;
+               const bufferStart = this.buffered.start(bufferRangeIndex);
+               const bufferEnd = this.buffered.end(bufferRangeIndex);
+               if (bufferStart <= this.currentTime) {
+                  const buffered = (bufferEnd / this.duration) * 100;
+                  console.log(buffered);
+                   me._bufferBar.value = buffered;
+                   break;
+               }
+           }
+         }
       });
 
       this._progressBar.addEventListener('click', function (e) {
