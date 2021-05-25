@@ -1,5 +1,5 @@
-const VideoPlayer = (function () {
-   function VideoPlayer(options) {
+const Cinematic = (function () {
+   function Cinematic(options) {
       this.options = options;
       const _passedContainer = document.querySelector(this.options.selector);
       if (!_passedContainer) {
@@ -20,7 +20,7 @@ const VideoPlayer = (function () {
       this._video.load();
    }
 
-   VideoPlayer.prototype.renderPlayer = function () {
+   Cinematic.prototype.renderPlayer = function () {
       this._container.classList.add('video-container');
 
       const _video = document.createElement('video');
@@ -183,7 +183,7 @@ const VideoPlayer = (function () {
       }
    };
 
-   VideoPlayer.prototype.setupEvents = function () {
+   Cinematic.prototype.setupEvents = function () {
       const me = this;
 
       this._playButton.addEventListener('click', function (e) {
@@ -337,11 +337,11 @@ const VideoPlayer = (function () {
       return new Date(seconds * 1000).toISOString().substr(11, 8);
    };
 
-   VideoPlayer.prototype.updateTimer = function () {
+   Cinematic.prototype.updateTimer = function () {
       this._timer.textContent = formatTime(this.playedSeconds) + ' / ' + formatTime(this.totalSeconds);
    };
 
-   VideoPlayer.prototype.handleFullscreen = function () {
+   Cinematic.prototype.handleFullscreen = function () {
       if (this.isFullScreen()) {
          if (document.exitFullscreen) document.exitFullscreen();
          else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
@@ -359,10 +359,10 @@ const VideoPlayer = (function () {
       }
    };
 
-   VideoPlayer.prototype.isFullScreen = function () {
+   Cinematic.prototype.isFullScreen = function () {
       return !!(document.fullscreen || document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement || document.fullscreenElement);
    };
 
 
-   return VideoPlayer;
+   return Cinematic;
 }());
