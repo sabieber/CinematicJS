@@ -271,7 +271,6 @@ const VideoPlayer = (function () {
                const bufferEnd = this.buffered.end(bufferRangeIndex);
                if (bufferStart <= this.currentTime) {
                   const buffered = (bufferEnd / this.duration) * 100;
-                  console.log(buffered);
                    me._bufferBar.value = buffered;
                    break;
                }
@@ -279,8 +278,9 @@ const VideoPlayer = (function () {
          }
       });
 
-      this._progressBar.addEventListener('click', function (e) {
-         var pos = (e.pageX - this.offsetLeft) / this.offsetWidth;
+      this._progressBar.addEventListener('click', function (event) {
+         const rect = event.target.getBoundingClientRect();
+         const pos = (event.clientX - rect.left) / this.offsetWidth;
          me._video.currentTime = pos * me._video.duration;
       });
 
