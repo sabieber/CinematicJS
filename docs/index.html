@@ -2,7 +2,7 @@
 <html>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="cinematic.css">
+    <link rel="stylesheet" type="text/css" href="../lib/cinematic.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined" rel="stylesheet">
     <style>
         .endcard {
@@ -45,13 +45,13 @@
 <body>
     <div id="video1"></div>
 
-    <script src="cinematic.js"></script>
+    <script src="../lib/cinematic.js"></script>
 
     <script>
         new Cinematic({
             selector: '#video1',
-            poster: 'video/poster.jpg',
-            subtitles: 'video/captions.vtt',
+            poster: '../video/poster.jpg',
+            subtitles: '../video/captions.vtt',
         });
     </script>
 </body>
