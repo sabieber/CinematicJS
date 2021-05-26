@@ -1,18 +1,46 @@
-const Cinematic = (function () {
-   function Cinematic(options) {
+interface Options {
+   selector: string;
+   poster: string;
+   subtitles: string;
+}
+
+class Cinematic {
+
+   options: Options;
+
+   _container: any;
+   _video: HTMLVideoElement;
+   _cues: HTMLElement;
+   _cuesContainer: HTMLElement;
+   _controls: HTMLElement;
+   _playButton: HTMLElement;
+   _bufferBar: HTMLProgressElement;
+   _progressBar: HTMLProgressElement;
+   _timer: HTMLElement;
+   _volumeSlider: HTMLInputElement;
+   _volumeButton: HTMLElement;
+   _qualityOptions: NodeListOf<ChildNode>;
+   _captionsButton: HTMLElement;
+   _fullScreenButton: HTMLElement;
+   
+   totalSeconds = 0;
+   playedSeconds = 0;
+   volume = 0;
+   quality = '720';
+   tracks: TextTrack;
+   cues: TextTrackCueList | null;
+
+   fullScreenEnabled = false;
+
+   constructor (options: Options) {
       this.options = options;
       const _passedContainer = document.querySelector(this.options.selector);
       if (!_passedContainer) {
          throw new Error('passed selector does not point to a DOM element.');
       }
       this._container = _passedContainer;
-      
-      this.totalSeconds = 0;
-      this.playedSeconds = 0;
-      this.volume = 0;
-      this.quality = 720;
 
-      this.fullScreenEnabled = !!(document.fullscreenEnabled || document.mozFullScreenEnabled || document.msFullscreenEnabled || document.webkitSupportsFullscreen || document.webkitFullscreenEnabled || document.createElement('video').webkitRequestFullScreen);
+      this.fullScreenEnabled = document.fullscreenEnabled;
 
       this.renderPlayer();
       this.setupEvents();
@@ -20,7 +48,7 @@ const Cinematic = (function () {
       this._video.load();
    }
 
-   Cinematic.prototype.renderPlayer = function () {
+   renderPlayer() {
       this._container.classList.add('video-container');
 
       const _video = document.createElement('video');
@@ -88,7 +116,6 @@ const Cinematic = (function () {
       const _bufferBar = document.createElement('progress');
       _bufferBar.classList.add('video-buffer-bar');
       _bufferBar.value = 0;
-      _bufferBar.min = 0;
       _progressWrapper.appendChild(_bufferBar);
 
       this._bufferBar = _bufferBar;
@@ -96,7 +123,6 @@ const Cinematic = (function () {
       const _progressBar = document.createElement('progress');
       _progressBar.classList.add('video-progress-bar');
       _progressBar.value = 0;
-      _progressBar.min = 0;
       _progressWrapper.appendChild(_progressBar);
 
       this._progressBar = _progressBar;
@@ -114,9 +140,9 @@ const Cinematic = (function () {
 
       const _volumeSlider = document.createElement('input');
       _volumeSlider.type = 'range';
-      _volumeSlider.min = 1;
-      _volumeSlider.max = 100;
-      _volumeSlider.value = 50;
+      _volumeSlider.min = '1';
+      _volumeSlider.max = '100';
+      _volumeSlider.value = '50';
       _volumeSlider.classList.add('video-volume-slider');
       _volumeWrapper.appendChild(_volumeSlider);
 
@@ -146,19 +172,19 @@ const Cinematic = (function () {
 
       const _option1080p = document.createElement('div');
       _option1080p.classList.add('video-quality-option');
-      _option1080p.dataset.quality = 1080;
+      _option1080p.dataset.quality = '1080';
       _option1080p.textContent = '1080p';
       _dropDownContent.appendChild(_option1080p);
 
       const _option720p = document.createElement('div');
       _option720p.classList.add('video-quality-option');
-      _option720p.dataset.quality = 720;
+      _option720p.dataset.quality = '720';
       _option720p.textContent = '720p';
       _dropDownContent.appendChild(_option720p);
 
       const _option360p = document.createElement('div');
       _option360p.classList.add('video-quality-option');
-      _option360p.dataset.quality = 360;
+      _option360p.dataset.quality = '360';
       _option360p.textContent = '360p';
       _dropDownContent.appendChild(_option360p);
 
@@ -173,17 +199,17 @@ const Cinematic = (function () {
       this._captionsButton = _captionsButton;
 
       if (this.fullScreenEnabled) {
-         const _fullscreenButton = document.createElement('i');
-         _fullscreenButton.classList.add('video-control-button');
-         _fullscreenButton.classList.add('material-icons');
-         _fullscreenButton.textContent = 'fullscreen';
-         _controls.appendChild(_fullscreenButton);
+         const _fullScreenButton = document.createElement('i');
+         _fullScreenButton.classList.add('video-control-button');
+         _fullScreenButton.classList.add('material-icons');
+         _fullScreenButton.textContent = 'fullscreen';
+         _controls.appendChild(_fullScreenButton);
 
-         this._fullscreenButton = _fullscreenButton;
+         this._fullScreenButton = _fullScreenButton;
       }
    };
 
-   Cinematic.prototype.setupEvents = function () {
+   setupEvents() {
       const me = this;
 
       this._playButton.addEventListener('click', function (e) {
@@ -196,7 +222,7 @@ const Cinematic = (function () {
 
       this._volumeButton.addEventListener('click', function (e) {
          me._video.muted = !me._video.muted;
-         me._volumeSlider.value = me._video.muted ? 0 : me.volume;
+         me._volumeSlider.value = me._video.muted ? '0' : me.volume.toString();
          if (me._video.muted) {
             me._volumeButton.textContent = 'volume_off';
          } else {
@@ -209,7 +235,7 @@ const Cinematic = (function () {
       });
 
       this._volumeSlider.addEventListener('change', function (e) {
-         me.volume = this.value;
+         me.volume = parseInt(this.value);
          me._video.volume = me.volume / 100;
          if (me.volume > 50) {
             me._volumeButton.textContent = 'volume_up';
@@ -218,7 +244,7 @@ const Cinematic = (function () {
          }
       });
 
-      const onCueEnter = function () {
+      const onCueEnter = function (this: any) {
          me._cues.textContent = this.text;
          me._cues.classList.remove('hidden');
       };
@@ -230,14 +256,16 @@ const Cinematic = (function () {
 
       this._video.addEventListener('loadedmetadata', function () {
          me.totalSeconds = this.duration;
-         me._progressBar.setAttribute('max', me.totalSeconds);
-         me._bufferBar.setAttribute('max', me.totalSeconds);
+         me._progressBar.setAttribute('max', me.totalSeconds.toString());
+         me._bufferBar.setAttribute('max', me.totalSeconds.toString());
          me.updateTimer();
-      
-         for (let i in me.cues) {
-            let cue = me.cues[i];
-            cue.onenter = onCueEnter;
-            cue.onexit = onCueExit;
+
+         if (me.cues) {
+            for (let i = 0; i < me.cues.length; i ++) {
+               let cue = me.cues[i];
+               cue.onenter = onCueEnter;
+               cue.onexit = onCueExit;
+            }
          }
       });
 
@@ -279,45 +307,47 @@ const Cinematic = (function () {
       });
 
       this._progressBar.addEventListener('click', function (event) {
-         const rect = event.target.getBoundingClientRect();
+         const target = event.target as HTMLElement;
+         const rect = target.getBoundingClientRect();
          const pos = (event.clientX - rect.left) / this.offsetWidth;
          me._video.currentTime = pos * me._video.duration;
       });
 
       if (this.fullScreenEnabled) {
-         this._fullscreenButton.addEventListener('click', function (e) {
+         this._fullScreenButton.addEventListener('click', function (e) {
             me.handleFullscreen();
          });
 
          document.addEventListener('fullscreenchange', function (e) {
-            me._container.dataset.fullscreen = !!(document.fullscreen || document.fullscreenElement);
-         });
-         document.addEventListener('webkitfullscreenchange', function () {
-            me._container.dataset.fullscreen = !!document.webkitIsFullScreen;
-         });
-         document.addEventListener('mozfullscreenchange', function () {
-            me._container.dataset.fullscreen = !!document.mozFullScreen;
-         });
-         document.addEventListener('msfullscreenchange', function () {
-            me._container.dataset.fullscreen = !!document.msFullscreenElement;
+            me._container.dataset.fullscreen = document.fullscreenElement;
          });
       }
 
-      this._qualityOptions.forEach(function (_qualityOption) {
+      this._qualityOptions.forEach(function (_qualityOption: HTMLElement) {
          _qualityOption.addEventListener('click', function (e) {
             const newQuality = _qualityOption.dataset.quality;
             const currentQuality = me.quality;
+
+            if (!newQuality) {
+               return;
+            }
       
-            me._qualityOptions.forEach(function (_qualityOption) {
+            me._qualityOptions.forEach(function (_qualityOption: HTMLElement) {
                _qualityOption.classList.remove('active');
             });
             _qualityOption.classList.add('active');
       
-            if (newQuality != currentQuality) {
+            if (newQuality !== currentQuality) {
                const currentTime = me._video.currentTime;
       
-               me._video.querySelector('source[type="video/mp4"]').src = '../video/' + newQuality + '.mp4';
-               me._video.querySelector('source[type="video/webm"]').src = '../video/' + newQuality + '.webm';
+               const _mp4Source = me._video.querySelector('source[type="video/mp4"]') as HTMLSourceElement;
+               if (_mp4Source) {
+                  _mp4Source.src = '../video/' + newQuality + '.mp4';
+               }
+               const _webmSource = me._video.querySelector('source[type="video/webm"]') as HTMLSourceElement;
+               if (_webmSource) {
+                  _webmSource.src = '../video/' + newQuality + '.webm';
+               }
                me._video.load();
                me._video.currentTime = currentTime;
                me._video.play();
@@ -331,38 +361,29 @@ const Cinematic = (function () {
          this.classList.toggle('material-icons-outlined');
          me._cuesContainer.classList.toggle('hidden');
       });
-   };
+   }
 
-   const formatTime = function (seconds) {
+   formatTime(seconds: number) {
       return new Date(seconds * 1000).toISOString().substr(11, 8);
-   };
+   }
 
-   Cinematic.prototype.updateTimer = function () {
-      this._timer.textContent = formatTime(this.playedSeconds) + ' / ' + formatTime(this.totalSeconds);
-   };
+   updateTimer() {
+      this._timer.textContent = this.formatTime(this.playedSeconds) + ' / ' + this.formatTime(this.totalSeconds);
+   }
 
-   Cinematic.prototype.handleFullscreen = function () {
+   handleFullscreen() {
       if (this.isFullScreen()) {
-         if (document.exitFullscreen) document.exitFullscreen();
-         else if (document.mozCancelFullScreen) document.mozCancelFullScreen();
-         else if (document.webkitCancelFullScreen) document.webkitCancelFullScreen();
-         else if (document.msExitFullscreen) document.msExitFullscreen();
+         document.exitFullscreen();
          this._container.dataset.fullscreen = false;
-         this._fullscreenButton.textContent = 'fullscreen';
+         this._fullScreenButton.textContent = 'fullscreen';
       } else {
-         if (this._container.requestFullscreen) this._container.requestFullscreen();
-         else if (this._container.mozRequestFullScreen) this._container.mozRequestFullScreen();
-         else if (this._container.webkitRequestFullScreen) this._container.webkitRequestFullScreen();
-         else if (this._container.msRequestFullscreen) this._container.msRequestFullscreen();
+         this._container.requestFullscreen();
          this._container.dataset.fullscreen = true;
-         this._fullscreenButton.textContent = 'fullscreen_exit';
+         this._fullScreenButton.textContent = 'fullscreen_exit';
       }
-   };
+   }
 
-   Cinematic.prototype.isFullScreen = function () {
-      return !!(document.fullscreen || document.webkitIsFullScreen || document.mozFullScreen || document.msFullscreenElement || document.fullscreenElement);
-   };
-
-
-   return Cinematic;
-}());
+   isFullScreen() {
+      return document.fullscreenElement;
+   }
+}
